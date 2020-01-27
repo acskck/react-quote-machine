@@ -1,4 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was done as part of a requirement for FreeCodeCamp (https://www.freecodecamp.org/learn) Front End Libraries Certification
 
 ## Available Scripts
 
