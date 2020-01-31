@@ -3,24 +3,26 @@ import logo from './logo.svg';
 import './App.css';
 import $ from 'jquery';
 
-var QUOTES = [{quote:'I"ll be back!',author:'Terminator'},
-                {quote:'Do NOT use my music to sell damn choon paan!!',author:'Beethovan'},
-                {quote:'My name is Khan and I am not a terrorist',author:'Khan-not a terrorist'},
-                {quote:'To be or not to be',author:'William Shakespear'},
-                {quote:'I have no idea what I am doing with my life',author:'Me'}]; 
-
-$.getJSON('https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json', function(data) {
-  //data is the JSON string
-  QUOTES = data.quotes;
- });
+var QUOTES;
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      randomIndex:0
+      randomIndex:0,
+      loading:true
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async componentDidMount(){
+
+    let response = await fetch('https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json');
+    let quotesData = await response.json();
+    QUOTES = quotesData.quotes;
+    this.setState({loading:false});
+
+
   }
 
   handleSubmit(event){
@@ -42,8 +44,14 @@ class App extends React.Component {
       width: '50%',
       padding: '10px',
     }
+    console.log('render');
+    if(this.state.loading)
+      return (
+        <div id='quote-box' style={style}> 
+        <h3 id='loading'>Hang tight, Quote Master is fetching the quotes.</h3>
+      </div>
+      )
     return (
-      
       <div id='quote-box' style={style}> 
         <h3 id='text'>{QUOTES[this.state.randomIndex].quote}</h3>
         <p id='author'>{QUOTES[this.state.randomIndex].author}</p>
