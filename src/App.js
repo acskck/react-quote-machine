@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import $ from 'jquery';
+import { Button,Spinner } from 'reactstrap';
 
 var QUOTES;
 
@@ -43,19 +43,24 @@ class App extends React.Component {
       margin: '0 auto',
       width: '50%',
       padding: '10px',
+      'background-color':'white',
+      'border-radius':'10px'
     }
     console.log('render');
     if(this.state.loading)
       return (
         <div id='quote-box' style={style}> 
-        <h3 id='loading'>Hang tight, Quote Master is fetching the quotes.</h3>
+        <h5 id='loading'>Hang tight, Quote Master is fetching the quotes...</h5>
+        <Spinner color="danger" />
+        <Spinner color="warning" />
+        <Spinner color="info" />
       </div>
       )
     return (
       <div id='quote-box' style={style}> 
-        <h3 id='text'>{QUOTES[this.state.randomIndex].quote}</h3>
+        <h3 id='text'>"{QUOTES[this.state.randomIndex].quote}</h3>
         <p id='author'>{QUOTES[this.state.randomIndex].author}</p>
-        <button id='new-quote' onClick={this.handleSubmit}>Generate Another Quote</button><br/>
+        <Button color = 'info' id='new-quote' onClick={this.handleSubmit}>Generate Another Quote</Button><br/>
         <a id='tweet-quote' href={"https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text="+encodeURIComponent('"' + QUOTES[this.state.randomIndex].quote + '" ' + QUOTES[this.state.randomIndex].author)} target='_blank'>Tweet this</a>
       </div>
     );
